@@ -5,12 +5,16 @@ import { useRouter } from 'next/navigation'
 import { Search, MapPin, ChevronRight, Building2, Wifi } from 'lucide-react'
 import { UNIVERSITIES } from '@/lib/universities'
 
+import { toast } from 'sonner'
+import { getUserLocation, isInsideCampus } from '@/lib/geo-fence'
+
 const states = [...new Set(UNIVERSITIES.map((u) => u.state))].sort()
 
 export default function UniversityPage() {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [selectedState, setSelectedState] = useState('')
+  const [verifying, setVerifying] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
     return UNIVERSITIES.filter((u) => {
@@ -22,9 +26,36 @@ export default function UniversityPage() {
     })
   }, [query, selectedState])
 
-  function selectUniversity(id: string) {
-    localStorage.setItem('selected_university_id', id)
-    router.push('/login')
+  async function selectUniversity(id: string) {
+    setVerifying(id)
+    
+    // Developer bypass: ALWAYS accept Mahindra University regardless of actual physical location
+    if (id === 'mahindra') {
+      localStorage.setItem('selected_university_id', id)
+      router.push('/login')
+      return
+    }
+
+    try {
+      const pos = await getUserLocation()
+      const { latitude, longitude } = pos.coords
+      
+      const univ = UNIVERSITIES.find(u => u.id === id)
+      if (!univ) throw new Error('University not found')
+
+      const inside = isInsideCampus(latitude, longitude, univ.lat, univ.lng, univ.radius_meters)
+      
+      if (inside) {
+        localStorage.setItem('selected_university_id', id)
+        router.push('/login')
+      } else {
+        toast.error(`Access Denied: You are not physically located inside the ${univ.name} campus!`)
+      }
+    } catch (err: any) {
+      toast.error('Failed to verify location. Please enable GPS permissions.')
+    } finally {
+      setVerifying(null)
+    }
   }
 
   return (
@@ -120,7 +151,11 @@ export default function UniversityPage() {
                   {univ.lat.toFixed(4)}° N, {univ.lng.toFixed(4)}° E
                 </p>
               </div>
-              <ChevronRight size={16} className="text-gray-300 flex-shrink-0" />
+              {verifying === univ.id ? (
+                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+              ) : (
+                <ChevronRight size={16} className="text-gray-300 flex-shrink-0" />
+              )}
             </button>
           ))}
         </div>
