@@ -61,7 +61,7 @@ export const UNIVERSITIES = [
   { id: 'iitbhu', name: 'IIT (BHU) Varanasi', city: 'Varanasi', state: 'Uttar Pradesh', lat: 25.2677, lng: 82.9990, radius_meters: 800 },
   { id: 'iitindore', name: 'Indian Institute of Technology Indore', city: 'Indore', state: 'Madhya Pradesh', lat: 22.5200, lng: 75.9200, radius_meters: 900 },
   // Private & Deemed
-  { id: 'mahindra', name: 'Mahindra University', city: 'Hyderabad', state: 'Telangana', lat: 17.5939, lng: 78.4833, radius_meters: 600 },
+  { id: 'mahindra', name: 'Mahindra University', city: 'Hyderabad', state: 'Telangana', lat: 17.5939, lng: 78.4833, radius_meters: 3000 },
   { id: 'bits_pilani', name: 'BITS Pilani', city: 'Pilani', state: 'Rajasthan', lat: 28.3643, lng: 75.5906, radius_meters: 900 },
   { id: 'bits_goa', name: 'BITS Pilani Goa Campus', city: 'Goa', state: 'Goa', lat: 15.3980, lng: 73.8793, radius_meters: 800 },
   { id: 'bits_hyd', name: 'BITS Pilani Hyderabad Campus', city: 'Hyderabad', state: 'Telangana', lat: 17.5455, lng: 78.5718, radius_meters: 800 },

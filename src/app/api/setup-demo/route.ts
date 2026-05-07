@@ -18,7 +18,7 @@ export async function POST() {
     { role: 'admin', full_name: 'Admin User', email: 'admin@smartcampus.in', password: 'admin123' },
   ]
 
-  const univId = UNIVERSITIES[0].id // Use University of Mumbai by default for demo users
+  const univId = 'mahindra' // Set default demo user to Mahindra University where the user is physically located
 
   try {
     for (const acc of DEMO_ACCOUNTS) {
