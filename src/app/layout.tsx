@@ -35,9 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${font.className} bg-gray-100 min-h-screen font-sans`}>
         <AuthProvider>
-          {/* Phone frame wrapper */}
-          <div className="flex items-start justify-center min-h-screen">
-            <div className="relative w-full max-w-[390px] min-h-screen bg-gray-50 shadow-2xl overflow-hidden">
+          {/* Responsive app container: full-screen on mobile, centered card on tablet+ */}
+          <div className="flex items-stretch justify-center min-h-screen">
+            <div className="relative w-full md:max-w-lg md:shadow-2xl md:my-6 md:rounded-3xl lg:max-w-2xl min-h-screen md:min-h-0 bg-white overflow-hidden flex flex-col">
               {children}
             </div>
           </div>
